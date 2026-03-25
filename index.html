@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة من قلب الجدة متفائلة - طراز عتيق</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --beige-dark: #d2b48c;
+            --beige-light: #f5f5dc;
+            --paper-color: #f4ecd8;
+        }
+
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #eaddca;
+            background-image: url('https://www.transparenttextures.com/patterns/p6.png'); /* ملمس ورقي خفيف */
+            color: #3e2723;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .vintage-card {
+            max-width: 800px;
+            width: 90%;
+            background-color: var(--paper-color);
+            padding: 50px;
+            border: 1px solid var(--beige-dark);
+            box-shadow: 
+                0 0 50px rgba(0,0,0,0.1),
+                inset 0 0 100px rgba(210, 180, 140, 0.2);
+            position: relative;
+            border-radius: 2px;
+        }
+
+        /* زوايا مزخرفة عتيقة */
+        .vintage-card::before {
+            content: "";
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(62, 39, 35, 0.1);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Reem Kufi', sans-serif;
+            color: #5d4037;
+            border-bottom: 2px double #d2b48c;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .typewriter-text {
+            font-size: 1.9rem;
+            line-height: 2;
+            min-height: 180px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+        }
+
+        .strike-through {
+            text-decoration: line-through;
+            color: #8d6e63;
+            opacity: 0.6;
+        }
+
+        .replacement-word {
+            color: #b8860b; /* ذهبي داكن */
+            font-weight: bold;
+            display: inline-block;
+            opacity: 0;
+            transform: scale(1.2);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .replacement-word.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .heart {
+            color: #a93226;
+            font-size: 2.2rem;
+            display: inline-block;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(169, 50, 38, 0.3));
+        }
+
+        .visible-heart {
+            animation: fadeInHeart 1s forwards, beat 1.5s infinite 1s;
+        }
+
+        @keyframes fadeInHeart { to { opacity: 1; } }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #5d4037;
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            color: #3e2723;
+        }
+
+        .btn-vintage {
+            background-color: #5d4037;
+            color: #f5f5dc;
+            font-family: 'Reem Kufi', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-vintage:hover {
+            background-color: #3e2723;
+            transform: translateY(-2px);
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .vintage-card { 
+                box-shadow: none; 
+                border: 1px solid #ccc;
+                margin: 0;
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vintage-card text-center">
+        <h1 class="text-4xl no-print">رسالة من قلب الجدة متفائلة</h1>
+
+        <!-- الإعداد -->
+        <div id="setup-area" class="no-print mt-10">
+            <div class="input-group mb-6">
+                <input type="text" id="recipient-name" placeholder="اكتب اسم الحفيد/ة هنا..." 
+                       class="w-64 focus:outline-none text-center italic">
+            </div>
+            <button onclick="startExperience()" class="btn-vintage px-10 py-3 rounded-sm shadow-md">
+                فتح المظروف
+            </button>
+        </div>
+
+        <!-- محتوى الرسالة -->
+        <div id="message-content" class="hidden mt-6">
+            <div id="display-recipient" class="text-2xl mb-8 italic text-right text-stone-600"></div>
+            
+            <div id="typewriter" class="typewriter-text font-bold"></div>
+
+            <div class="mt-16 no-print opacity-0 transition-opacity duration-1000" id="signature-area">
+                <button onclick="window.print()" class="btn-vintage px-8 py-2 rounded-sm text-sm">
+                    طباعة الرسالة للذكرى
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // الأصوات باستخدام Web Audio API لمحاكاة الآلة الكاتبة
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function playKeySound() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(Math.random() * 100 + 150, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playBellSound() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.5);
+        }
+
+        const messageText = "من القلب إلى أطفال العالم: عشتم آمنين أصحاء سعداء متفائلين";
+        
+        function startExperience() {
+            const name = document.getElementById('recipient-name').value.trim();
+            if (!name) {
+                alert("الرجاء كتابة اسم المرسل إليه.");
+                return;
+            }
+
+            // تهيئة الصوت (يجب أن يتم بعد تفاعل المستخدم)
+            if (!audioCtx) audioCtx = new AudioContext();
+
+            document.getElementById('setup-area').classList.add('hidden');
+            document.getElementById('message-content').classList.remove('hidden');
+            document.getElementById('display-recipient').innerText = `عزيزي/تي: ${name}`;
+            
+            typeWriterEffect();
+        }
+
+        async function typeWriterEffect() {
+            const el = document.getElementById('typewriter');
+            el.innerHTML = "";
+            
+            for (let char of messageText) {
+                el.innerHTML += char;
+                playKeySound();
+                await new Promise(r => setTimeout(r, 100));
+            }
+
+            // إضافة القلب
+            el.innerHTML += ' <span class="heart" id="main-heart">❤️</span>';
+            setTimeout(() => {
+                document.getElementById('main-heart').classList.add('visible-heart');
+                playBellSound();
+            }, 500);
+
+            // استبدال الكلمة
+            setTimeout(() => {
+                const current = el.innerHTML;
+                el.innerHTML = current.replace("أطفال", 
+                    `<span class="strike-through">أطفال</span> <span class="replacement-word" id="hero-word">أبطال</span>`);
+                
+                // إعادة تفعيل القلب بعد تغيير الـ HTML
+                document.getElementById('main-heart').classList.add('visible-heart');
+                
+                setTimeout(() => {
+                    document.getElementById('hero-word').classList.add('visible');
+                    document.getElementById('signature-area').classList.remove('opacity-0');
+                }, 100);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

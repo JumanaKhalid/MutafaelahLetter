@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة من قلب الجدة متفائلة - النسخة الكاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Lalezar&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-mint: #b9d8d3; 
+            --accent-pink: #e58e8e; 
+            --gold-accent: #d4af37;
+            --wax-seal: #d68080; 
+            --paper-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-mint);
+            margin: 0;
+            overflow-x: hidden;
+            color: #3e2723;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* واجهة الغلاف */
+        #cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-mint);
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+            position: relative;
+            z-index: 50;
+        }
+
+        .cover-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 50px;
+            text-align: center;
+            border: 6px solid white;
+            outline: 2px solid var(--accent-pink);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .grandma-img-large {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 5px solid var(--accent-pink);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .grandma-img-small {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid var(--accent-pink);
+            display: block;
+        }
+
+        /* صفحة الرسالة */
+        #message-page {
+            min-height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .vintage-card {
+            max-width: 850px;
+            width: 100%;
+            background-color: var(--paper-color);
+            padding: 60px;
+            border: 15px double var(--accent-pink); 
+            position: relative;
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .vintage-card::before, .vintage-card::after {
+            content: "✿";
+            position: absolute;
+            font-size: 2rem;
+            color: var(--accent-pink);
+            opacity: 0.6;
+        }
+        .vintage-card::before { top: 10px; right: 10px; }
+        .vintage-card::after { bottom: 10px; left: 10px; }
+
+        .wax-seal {
+            width: 100px;
+            height: 100px;
+            background: var(--wax-seal) !important;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.2), inset -3px -3px 8px rgba(0,0,0,0.3);
+            transform: rotate(-10deg);
+            -webkit-print-color-adjust: exact;
+        }
+
+        .wax-seal::after {
+            content: "الجدة\Aمتفائلة";
+            white-space: pre-wrap;
+            text-align: center;
+            font-family: 'Lalezar', cursive;
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-size: 0.9rem;
+            line-height: 1.1;
+        }
+
+        .footer-info {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between; /* توزيع المحتوى بين الطرفين */
+            align-items: center;
+            border-top: 1px dashed #eee;
+            padding-top: 25px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .date-box {
+            text-align: right; /* التاريخ على اليمين */
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            color: #8d6e63;
+            line-height: 1.4;
+        }
+
+        .title-box {
+            background-color: var(--accent-pink) !important;
+            color: white !important;
+            padding: 10px 35px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 30px;
+            border: 3px solid white;
+            font-family: 'Aref Ruqaa', serif;
+            box-shadow: 0 4px 12px rgba(229, 142, 142, 0.3);
+            -webkit-print-color-adjust: exact;
+        }
+
+        .typewriter-text {
+            font-family: 'Amiri', serif;
+            font-size: 2.1rem;
+            line-height: 1.7;
+            min-height: 150px;
+            color: #2c1e1a;
+            margin-bottom: 10px;
+        }
+
+        .strike-through {
+            text-decoration: line-through;
+            color: #d1d1d1;
+        }
+
+        .replacement-word {
+            color: var(--accent-pink) !important;
+            font-weight: 700;
+            display: inline-block;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            -webkit-print-color-adjust: exact;
+        }
+
+        .replacement-word.visible {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .btn-action {
+            background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+            color: #3e2723;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            padding: 14px 45px;
+            border-radius: 40px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 0 #ccc;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #ccc;
+        }
+
+        .heart {
+            color: var(--accent-pink) !important;
+            display: inline-block;
+            opacity: 0;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .visible-heart {
+            animation: beat 1.5s infinite;
+            opacity: 1;
+        }
+
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            #message-page { display: flex !important; opacity: 1 !important; padding: 0; }
+            #cover-page { display: none !important; }
+            .vintage-card { 
+                box-shadow: none; 
+                border: 10px double #e58e8e !important;
+                margin: 0;
+                width: 100%;
+                border-radius: 0;
+                padding: 40px;
+            }
+            .grandma-img-small { border: 2px solid #e58e8e !important; }
+            .wax-seal { opacity: 1 !important; background-color: #d68080 !important; }
+            .footer-info { opacity: 1 !important; border-top: 1px solid #eee; }
+            .title-box { background-color: #e58e8e !important; color: white !important; }
+            .replacement-word { color: #e58e8e !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- صفحة الغلاف -->
+    <div id="cover-page">
+        <div class="cover-content">
+            <img src="Gemini_Generated_Image_1foohc1foohc1foo.png" alt="الجدة متفائلة" class="grandma-img-large">
+            
+            <h1 class="font-['Aref_Ruqaa'] text-3xl mb-4 text-[#4e342e] leading-relaxed">
+                الجدة متفائلة تحييك على شجاعتك ووصولك إلى ختام الرحلة
+            </h1>
+            
+            <input type="text" id="recipient-name" placeholder="ما اسم الحفيد/ة الغالي/ة؟" class="w-full max-w-xs p-4 rounded-full border-2 border-[#e58e8e] text-center mb-6 outline-none focus:bg-pink-50 transition-all font-['Cairo'] text-lg">
+            <br>
+            <button onclick="openLetter()" class="btn-action">
+                فتح الرسالة
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحة الرسالة -->
+    <div id="message-page">
+        <div class="vintage-card text-center">
+            
+            <img src="Gemini_Generated_Image_1foohc1foohc1foo.png" alt="الجدة متفائلة" class="grandma-img-small">
+
+            <div class="title-box no-print">
+                <h2 class="text-2xl">رسالة من قلب الجدة متفائلة</h2>
+            </div>
+
+            <div id="message-body">
+                <div id="display-recipient" class="text-2xl mb-8 text-right text-gray-700 font-['Aref_Ruqaa'] px-4 border-r-4 border-pink-200 pr-4"></div>
+                
+                <div id="typewriter" class="typewriter-text px-4"></div>
+
+                <!-- تذييل الرسالة المحدث -->
+                <div class="footer-info" id="footer-area">
+                    <!-- التاريخ واليوم والوقت على اليمين -->
+                    <div class="date-box">
+                        <div id="day-display" style="font-weight:bold; color:var(--accent-pink);"></div>
+                        <div id="date-display"></div>
+                        <div id="time-display" style="font-size: 0.85rem; opacity: 0.7;"></div>
+                    </div>
+
+                    <!-- الختم على اليسار -->
+                    <div id="wax-seal" class="wax-seal" style="opacity:0; transition: opacity 1.2s ease;"></div>
+                </div>
+
+                <div class="mt-12 no-print flex justify-center gap-6 opacity-0 transition-opacity duration-1000" id="signature-area">
+                    <button onclick="window.print()" class="btn-action text-sm">حفظ كذكرى جميلة</button>
+                    <button onclick="location.reload()" class="bg-gray-100 text-gray-500 px-8 py-3 rounded-full text-sm font-bold border">البداية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const days = ['الأحد', 'الأثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const dayName = days[now.getDay()];
+            
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit' };
+
+            document.getElementById('day-display').innerText = dayName;
+            document.getElementById('date-display').innerText = now.toLocaleDateString('ar-SA', dateOptions);
+            document.getElementById('time-display').innerText = now.toLocaleTimeString('ar-SA', timeOptions);
+        }
+        updateDateTime();
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function playSound(freq, duration, vol) {
+            if (!audioCtx) audioCtx = new AudioContext();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        const messageText = "من القلب إلى أطفال العالم: عشتم آمنين أصحاء سعداء متفائلين";
+        
+        function openLetter() {
+            const name = document.getElementById('recipient-name').value.trim();
+            if (!name) return;
+
+            const cover = document.getElementById('cover-page');
+            const messagePage = document.getElementById('message-page');
+            
+            cover.style.transform = "translateY(-100%)";
+            
+            setTimeout(() => {
+                cover.style.display = "none";
+                messagePage.style.display = "flex";
+                setTimeout(() => {
+                    messagePage.style.opacity = "1";
+                    document.getElementById('display-recipient').innerText = `إلى حفيدنا الغالي / حفيدتنا الغالية: ${name}`;
+                    typeWriterEffect();
+                }, 100);
+            }, 1000);
+        }
+
+        async function typeWriterEffect() {
+            const el = document.getElementById('typewriter');
+            el.innerHTML = "";
+            
+            for (let char of messageText) {
+                el.innerHTML += char;
+                playSound(180, 0.05, 0.02);
+                await new Promise(r => setTimeout(r, 90));
+            }
+
+            el.innerHTML += ' <span class="heart" id="main-heart">❤️</span>';
+            setTimeout(() => {
+                const heart = document.getElementById('main-heart');
+                if(heart) heart.classList.add('visible-heart');
+                playSound(800, 0.4, 0.04);
+            }, 400);
+
+            setTimeout(() => {
+                el.innerHTML = el.innerHTML.replace("أطفال", 
+                    `<span class="strike-through">أطفال</span> <span class="replacement-word" id="hero-word">أبطال</span>`);
+                
+                setTimeout(() => {
+                    const hero = document.getElementById('hero-word');
+                    const footer = document.getElementById('footer-area');
+                    const seal = document.getElementById('wax-seal');
+                    
+                    if(hero) hero.classList.add('visible');
+                    if(footer) footer.style.opacity = "1";
+                    if(seal) seal.style.opacity = "1";
+                    
+                    document.getElementById('signature-area').classList.remove('opacity-0');
+                    playSound(440, 0.6, 0.03);
+                }, 600);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
